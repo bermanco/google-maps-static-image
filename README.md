@@ -4,6 +4,7 @@ Basic usage:
 
 ```
 use bermanco\GoogleMapsStaticImage\GoogleMapsStaticImage;
+
 $map = new GoogleMapsStaticImage;
 $map->set_address_1("1600 Pennsylvania Ave NW");
 $map->set_city("Washington");

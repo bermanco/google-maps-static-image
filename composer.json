@@ -1,0 +1,16 @@
+{
+	"name": "bermanco/google-maps-static-image",
+	"description": "Create a static image map using Google Maps",
+	"authors": [
+		{
+			"name": "Chris Herbert",
+			"email": "herbert@bermanco.com"
+		}
+	],
+	"require": {},
+	"autoload": {
+		"psr-4": {
+			"bermanco\\GoogleMapsStaticImage\\": "src/"
+		}
+	}
+}

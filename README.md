@@ -2,7 +2,7 @@
 
 Basic usage:
 
-```
+```php
 use bermanco\GoogleMapsStaticImage\GoogleMapsStaticImage;
 
 $map = new GoogleMapsStaticImage;

@@ -127,6 +127,15 @@ class GoogleMapsStaticImage {
 
 	}
 
+	// Aliases
+	
+	/**
+	 * Creating this alias so code that uses the old method name won't break.
+	 * */
+	public function size($size){
+		$this->set_size($size);
+	}
+
 }
 
 

@@ -40,7 +40,7 @@ class GoogleMapsStaticImage {
 		$this->api_key = $api_key;
 	}
 
-	public function size($size){
+	public function set_size($size){
 		$this->size = $size;
 	}
 

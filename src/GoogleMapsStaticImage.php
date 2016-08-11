@@ -45,11 +45,6 @@ class GoogleMapsStaticImage {
 		$this->size = $size;
 	}
 
-	// This is here to maintain backwards compatibility with v1.0
-	public function size($size){
-		$this->size = $size;
-	}
-
 	public function set_type($type){
 		$this->type = $type;
 	}

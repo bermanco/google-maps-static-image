@@ -13,6 +13,7 @@ class GoogleMapsStaticImage {
 	protected $size = '600x300';
 	protected $type = 'roadmap';
 	protected $marker_color = 'red';
+	protected $zoom = '15';
 
 	const BASE_URL = 'https://maps.googleapis.com/maps/api/staticmap';
 
@@ -48,6 +49,10 @@ class GoogleMapsStaticImage {
 		$this->type = $type;
 	}
 
+	public function set_zoom($zoom){
+		$this->zoom = $zoom;
+	}
+
 	public function set_marker_color($marker_color){
 		$this->marker_color = $marker_color;
 	}
@@ -73,6 +78,10 @@ class GoogleMapsStaticImage {
 		if ($this->get_address_string()){
 			$params['center'] = $this->get_address_string();
 			$params['markers'] = $this->get_marker_string();
+		}
+
+		if ($this->zoom){
+			$params['zoom'] = $this->zoom;
 		}
 
 		if ($params){

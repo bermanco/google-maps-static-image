@@ -10,6 +10,7 @@ class GoogleMapsStaticImage {
 	protected $state;
 	protected $zip;
 	protected $api_key;
+	protected $url_signing_secret;
 	protected $size = '600x300';
 	protected $type = 'roadmap';
 	protected $marker_color = 'red';
@@ -41,6 +42,10 @@ class GoogleMapsStaticImage {
 		$this->api_key = $api_key;
 	}
 
+	public function set_url_signing_secret($url_signing_secret){
+		$this->url_signing_secret = $url_signing_secret;
+	}
+
 	public function set_size($size){
 		$this->size = $size;
 	}
@@ -63,6 +68,11 @@ class GoogleMapsStaticImage {
 
 		$params = array();
 
+		if ($this->get_address_string()){
+			$params['center'] = $this->get_address_string();
+			$params['markers'] = $this->get_marker_string();
+		}
+
 		if ($this->api_key){
 			$params['key'] = $this->api_key;
 		}
@@ -75,18 +85,21 @@ class GoogleMapsStaticImage {
 			$params['type'] = $this->type;
 		}
 
-		if ($this->get_address_string()){
-			$params['center'] = $this->get_address_string();
-			$params['markers'] = $this->get_marker_string();
-		}
-
 		if ($this->zoom){
 			$params['zoom'] = $this->zoom;
 		}
 
 		if ($params){
 			$query_string = http_build_query($params);
-			return "$base?$query_string";
+			$unsigned_url = "$base?$query_string";
+			
+			if ($this->url_signing_secret) {
+				$signed_url = $this->get_signed_url($unsigned_url, $this->url_signing_secret);
+
+				return $signed_url;
+			} else {
+				return $unsigned_url;
+			}
 		}
 
 	}
@@ -136,6 +149,28 @@ class GoogleMapsStaticImage {
 
 	}
 
+	protected function get_signed_url($url_to_sign, $private_key){
+	
+		$url = parse_url($url_to_sign);
+		$url_part_to_sign = $url['path'] . "?" . $url['query'];
+		
+		$decoded_key = $this->decode_base64($private_key);
+		
+		$signature = hash_hmac("sha1", $url_part_to_sign, $decoded_key, true);
+		
+		$encoded_signature = $this->encode_base64($signature);
+		
+		return $url_to_sign . "&signature=" . $encoded_signature;
+	}
+
+	protected function decode_base64($value){
+		return base64_decode(str_replace(array('-', '_'), array('+', '/'), $value));
+	}
+
+	protected function encode_base64($value){
+		return str_replace(array('+', '/'), array('-', '_'), base64_encode($value));
+	}
+
 	// Aliases
 	
 	/**
@@ -146,5 +181,3 @@ class GoogleMapsStaticImage {
 	}
 
 }
-
-

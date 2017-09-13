@@ -23,3 +23,10 @@ If you are worried about bumping up against the API's limits, you can optionally
 ```php
 $map->set_api_key(YOUR_GOOGLE_MAPS_API_KEY);
 ```
+### Using a URL signing secret (conditionally required)
+
+A digital signature is required if you have enabled pay-as-you-go billing and exceed the free limit of 25,000 map loads per day.
+
+```php
+$map->set_url_signing_secret(YOUR_GOOGLE_MAPS_URL_SIGNING_SECRET);
+```
